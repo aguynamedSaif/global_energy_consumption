@@ -1,0 +1,7 @@
+"0","ggplot("
+"0","    filter(gather(continent,continent,Twh,World:CIS),continent != ""Africa"" & continent != ""Asia"" "
+"0","           & continent !=  ""Europe"" & continent !=  ""Latin.America"" "
+"0","           & continent !=  ""Middle.East"" & continent !=  ""North.America"" "
+"0","           & continent !=  ""Pacific""),"
+"0","    aes(continent,Twh, fill = continent)) +"
+"0","    geom_col()"

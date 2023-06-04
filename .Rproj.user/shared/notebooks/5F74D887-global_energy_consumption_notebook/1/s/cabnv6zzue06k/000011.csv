@@ -1,0 +1,4 @@
+"0","gather(select(continent, ""Year"", ""BRICS"", ""CIS"", ""OECD""), economic_alliances, Twh, BRICS:OECD) %>%"
+"0","    ggplot(aes(Year, Twh, color = economic_alliances)) +"
+"0","    geom_point() +"
+"0","    geom_smooth(method = ""lm"")"

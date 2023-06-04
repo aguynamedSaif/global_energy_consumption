@@ -1,0 +1,129 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+Let's load the datasets of energy consumption by continent and energy consumption by country
+
+```{r}
+continent = read.csv("Continent_Consumption_TWH.csv")
+country = read.csv("Country_COnsumption_TWH.csv")
+```
+continent: * The dataset lists up the amount of energy consumption(TWh) group by 7 continents and 3 organizations from year 1990 to 2020. Specifically organizations analyzed in the dataset are OECD, BRICS, and CIS.
+
+country: * It is the dataset that lists up the amount of power consumption of 44 countries from year 1990 to 2020.
+```{r}
+str(continent)
+```
+```{r}
+str(country)
+```
+install the necessary packages
+
+
+```{r}
+library(tidyverse)
+library(ggplot2)
+library(rmarkdown)
+library(knitr)
+library(ggthemes)
+
+```
+let us look at the dataset a little bit, lets look at the years the data has been archived
+```{r}
+unique(continent$Year)
+```
+lets see if we have any missing data
+```{r}
+sum(is.na(continent))
+```
+```{r}
+head(continent, 5)
+```
+```{r}
+head(country, 5)
+```
+```{r}
+summary(continent)
+```
+Let us visualise the data
+lets start with how energy consumtion changed since 1990 to 2020
+```{r}
+ggplot(
+    filter(gather(continent, continent, Twh, World:CIS), continent == "World"), 
+    aes(Year, Twh))+
+    geom_point()+
+    geom_line()
+```
+```{r}
+filter(gather(continent,continent,Twh,World:CIS),continent == "World") %>% 
+    mutate(percent_increase = (Twh - lag(Twh, default = first(Twh)))/ lag(Twh, default =first(Twh))) %>%
+    ggplot(aes(Year, percent_increase))+
+    geom_point() +
+    geom_smooth(method = "lm")
+```
+```{r}
+ggplot(
+    filter(gather(continent,continent,Twh,World:CIS),continent != "World"& continent != "CIS" & continent != "BRICS" & continent !=  "OECD"),
+    aes(Year,Twh, color = continent)) +
+    geom_point() + 
+    geom_smooth()
+```
+```{r}
+ggplot(
+    filter(gather(continent,continent,Twh,World:CIS),continent != "World"& continent != "CIS" & continent != "BRICS" & continent !=  "OECD" & continent !=  "Asia"),
+    aes(Year,Twh, color = continent)) +
+    geom_point() + 
+    geom_smooth() +
+    facet_wrap(~continent)
+```
+```{r}
+ggplot(
+    filter(gather(continent,continent,Twh,World:CIS),continent != "World"& continent != "CIS" & continent != "BRICS" & continent !=  "OECD",
+           continent != "Asia",continent != "Africa",continent != "Latin.America",continent != "Middle.East",continent != "Pacific"),
+    aes(Year,Twh, color = continent)) +
+    geom_point() + 
+    geom_smooth() +
+    facet_wrap(~continent)
+```
+```{r}
+ggplot(
+    filter(gather(continent,continent,Twh,World:CIS),continent != "Africa" & continent != "Asia" 
+           & continent !=  "Europe" & continent !=  "Latin.America" 
+           & continent !=  "Middle.East" & continent !=  "North.America" 
+           & continent !=  "Pacific"),
+    aes(continent,Twh, fill = continent)) +
+    geom_col()
+```
+```{r}
+ggplot(
+    filter(gather(continent,continent,Twh,World:CIS),continent != "Africa" & continent != "Asia" 
+           & continent !=  "Europe" & continent !=  "Latin.America" 
+           & continent !=  "Middle.East" & continent !=  "North.America" 
+           & continent !=  "Pacific" & continent !=  "World"),
+    aes(Year,Twh, color = continent)) +
+    geom_point() + 
+    geom_line()
+```
+```{r}
+gather(select(continent, "Year", "BRICS", "CIS", "OECD"), economic_alliances, Twh, BRICS:OECD) %>%
+    ggplot(aes(Year, Twh, color = economic_alliances)) +
+    geom_point() +
+    geom_smooth(method = "lm")
+```
+```{r}
+gather(select(continent,"Year","BRICS", "CIS", "OECD"),economic_alliances, Twh, BRICS:OECD) %>% 
+    ggplot(aes(economic_alliances, Twh, fill = economic_alliances))+ geom_col()
+```
+```{r}
+gather(select(continent,"Year","BRICS", "CIS", "OECD"),economic_alliances, Twh, BRICS:OECD) %>% 
+    ggplot(aes( Twh, fill = economic_alliances))+ geom_boxplot()
+```
+
+
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.

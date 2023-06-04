@@ -1,0 +1,5 @@
+"0","ggplot("
+"0","    filter(gather(continent, continent, Twh, World:CIS), continent == ""World""), "
+"0","    aes(Year, Twh))+"
+"0","    geom_point()+"
+"0","    geom_line()"

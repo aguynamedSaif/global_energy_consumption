@@ -1,0 +1,5 @@
+"0","filter(gather(continent,continent,Twh,World:CIS),continent == ""World"") %>% "
+"0","    mutate(percent_increase = (Twh - lag(Twh, default = first(Twh)))/ lag(Twh, default =first(Twh))) %>%"
+"0","    ggplot(aes(Year, percent_increase))+"
+"0","    geom_point() +"
+"0","    geom_smooth(method = ""lm"")"

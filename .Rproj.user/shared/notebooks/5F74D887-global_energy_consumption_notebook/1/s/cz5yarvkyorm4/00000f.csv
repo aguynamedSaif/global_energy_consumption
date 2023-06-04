@@ -1,0 +1,6 @@
+"0","ggplot("
+"0","    filter(gather(continent,continent,Twh,World:CIS),continent != ""World""& continent != ""CIS"" & continent != ""BRICS"" & continent !=  ""OECD"" & continent !=  ""Asia""),"
+"0","    aes(Year,Twh, color = continent)) +"
+"0","    geom_point() + "
+"0","    geom_smooth() +"
+"0","    facet_wrap(~continent)"

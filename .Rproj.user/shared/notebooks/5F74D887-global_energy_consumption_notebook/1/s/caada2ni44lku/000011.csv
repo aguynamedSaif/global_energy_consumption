@@ -1,0 +1,2 @@
+"0","gather(select(continent,""Year"",""BRICS"", ""CIS"", ""OECD""),economic_alliances, Twh, BRICS:OECD) %>% "
+"0","    ggplot(aes( Twh, fill = economic_alliances))+ geom_boxplot()"
